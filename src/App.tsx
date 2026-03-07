@@ -2,7 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AppProvider } from "@/context/AppContext";
+import { MobileWrapper } from "@/components/MobileWrapper";
 import Onboarding from "./pages/Onboarding";
 import Interests from "./pages/Interests";
 import Dashboard from "./pages/Dashboard";
@@ -24,23 +26,27 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Onboarding />} />
-          <Route path="/interests" element={<Interests />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/ideas" element={<Ideas />} />
-          <Route path="/idea/:id" element={<IdeaDetails />} />
-          <Route path="/research" element={<Research />} />
-          <Route path="/roadmap" element={<Roadmap />} />
-          <Route path="/milestones" element={<Milestones />} />
-          <Route path="/docs" element={<Documentation />} />
-          <Route path="/bundle" element={<Bundle />} />
-          <Route path="/bundle-preview" element={<BundlePreview />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AppProvider>
+        <MobileWrapper>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Onboarding />} />
+              <Route path="/interests" element={<Interests />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/ideas" element={<Ideas />} />
+              <Route path="/idea/:id" element={<IdeaDetails />} />
+              <Route path="/research" element={<Research />} />
+              <Route path="/roadmap" element={<Roadmap />} />
+              <Route path="/milestones" element={<Milestones />} />
+              <Route path="/docs" element={<Documentation />} />
+              <Route path="/bundle" element={<Bundle />} />
+              <Route path="/bundle-preview/:fileIndex" element={<BundlePreview />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </MobileWrapper>
+      </AppProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

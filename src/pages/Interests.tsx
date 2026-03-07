@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Brain, Globe, Database, Shield, Smartphone, Cpu, Code, BarChart3 } from "lucide-react";
+import { ArrowRight, Brain, Globe, Database, Shield, Smartphone, Cpu, Code, BarChart3, User } from "lucide-react";
+import { useApp } from "@/context/AppContext";
 
 const fields = [
   { id: "ai", label: "Artificial Intelligence", icon: Brain, color: "bg-pastel-purple" },
@@ -14,7 +15,9 @@ const fields = [
 ];
 
 export default function Interests() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const { interests, setInterests, setOnboardingComplete, userName, setUserName } = useApp();
+  const [selected, setSelected] = useState<string[]>(interests);
+  const [name, setName] = useState(userName);
   const navigate = useNavigate();
 
   const toggle = (id: string) =>
@@ -22,15 +25,40 @@ export default function Interests() {
       prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
     );
 
+  const handleContinue = () => {
+    if (selected.length > 0 && name.trim()) {
+      setInterests(selected);
+      setUserName(name.trim());
+      setOnboardingComplete(true);
+      navigate("/dashboard");
+    }
+  };
+
   return (
     <div className="min-h-screen gradient-soft px-6 py-8 flex flex-col">
       <div className="flex-1">
-        <p className="text-sm text-primary font-semibold mb-1">Step 1 of 2</p>
-        <h1 className="text-2xl font-bold mb-2">What interests you?</h1>
-        <p className="text-muted-foreground text-sm mb-8">
-          Choose your fields so we can recommend the best FYP ideas.
+        <p className="text-sm text-primary font-semibold mb-1">Setup Your Profile</p>
+        <h1 className="text-2xl font-bold mb-2">Let's get to know you</h1>
+        <p className="text-muted-foreground text-sm mb-6">
+          We'll use this to recommend the best FYP ideas for you.
         </p>
 
+        {/* Name input */}
+        <div className="mb-6">
+          <label className="text-xs font-semibold text-muted-foreground mb-2 block">Your Name</label>
+          <div className="relative">
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full bg-card rounded-2xl pl-11 pr-4 py-3.5 text-sm border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all shadow-soft"
+            />
+          </div>
+        </div>
+
+        <label className="text-xs font-semibold text-muted-foreground mb-3 block">Select Your Interests</label>
         <div className="grid grid-cols-2 gap-3">
           {fields.map((field) => {
             const isSelected = selected.includes(field.id);
@@ -55,8 +83,8 @@ export default function Interests() {
       </div>
 
       <button
-        onClick={() => selected.length > 0 && navigate("/dashboard")}
-        disabled={selected.length === 0}
+        onClick={handleContinue}
+        disabled={selected.length === 0 || !name.trim()}
         className="mt-6 w-full gradient-accent text-primary-foreground py-3.5 rounded-2xl font-semibold flex items-center justify-center gap-2 shadow-soft disabled:opacity-40 transition-all active:scale-[0.98]"
       >
         Continue
