@@ -1,46 +1,35 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Download, Copy, Check } from "lucide-react";
 import { useState } from "react";
+import { useApp } from "@/context/AppContext";
+import { generatePRD, generateUserFlow, generateFlowchart, generateDatabaseSchema, generateMVPScope, generateMasterPrompt } from "@/lib/bundleGenerator";
+import { toast } from "sonner";
 
-const previewContent = `# Product Requirement Document (PRD)
-## AI-Powered Plagiarism Detector
-
-### 1. Product Overview
-An intelligent plagiarism detection system using NLP and transformer 
-models to analyze academic documents for plagiarism.
-
-### 2. Goals
-- Detect paraphrased plagiarism with 90%+ accuracy
-- Process documents in under 30 seconds
-- Support PDF, DOCX, and TXT formats
-- Generate detailed similarity reports
-
-### 3. User Stories
-- As a student, I can upload my document to check for plagiarism
-- As a professor, I can batch-check multiple submissions
-- As an admin, I can view analytics dashboard
-
-### 4. Technical Requirements
-- Backend: Python + FastAPI
-- Frontend: React + TypeScript
-- ML Model: Fine-tuned BERT for semantic similarity
-- Database: PostgreSQL
-- Cache: Redis for processed documents
-
-### 5. MVP Features
-1. Single document upload & scan
-2. Similarity percentage score
-3. Highlighted matching sections
-4. Basic report generation
-5. User authentication`;
+const fileNames = ["PRD.md", "user-flow.md", "system-flowchart.md", "database-schema.sql", "mvp-scope.md", "master-prompt.md"];
+const fileLabels = ["Product Requirement Document", "User Flow", "System Flowchart", "Database Schema", "MVP Scope", "Master Vibe Coding Prompt"];
+const generators = [generatePRD, generateUserFlow, generateFlowchart, generateDatabaseSchema, generateMVPScope, generateMasterPrompt];
 
 export default function BundlePreview() {
+  const { fileIndex } = useParams();
   const navigate = useNavigate();
+  const { selectedIdea } = useApp();
   const [copied, setCopied] = useState(false);
+  
+  const idx = Number(fileIndex) || 0;
+
+  if (!selectedIdea) {
+    navigate("/bundle");
+    return null;
+  }
+
+  const content = generators[idx](selectedIdea);
+  const fileName = fileNames[idx];
+  const fileLabel = fileLabels[idx];
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(previewContent);
+    navigator.clipboard.writeText(content);
     setCopied(true);
+    toast.success("Copied to clipboard!");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -51,8 +40,8 @@ export default function BundlePreview() {
           <ArrowLeft className="w-4 h-4" />
         </button>
         <div className="flex-1">
-          <h1 className="text-lg font-bold">PRD Preview</h1>
-          <p className="text-xs text-muted-foreground">PRD.md · 4.2 KB</p>
+          <h1 className="text-lg font-bold">{fileLabel}</h1>
+          <p className="text-xs text-muted-foreground">{fileName}</p>
         </div>
         <button
           onClick={handleCopy}
@@ -64,13 +53,31 @@ export default function BundlePreview() {
 
       <div className="px-6">
         <div className="bg-card rounded-3xl p-5 shadow-card animate-fade-in">
-          <pre className="text-xs text-foreground whitespace-pre-wrap font-mono leading-relaxed">
-            {previewContent}
+          <pre className="text-[11px] text-foreground whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
+            {content}
           </pre>
         </div>
 
-        <button className="w-full gradient-accent text-primary-foreground py-3.5 rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 shadow-soft mt-5">
-          <Download className="w-4 h-4" /> Download Bundle
+        {/* Navigation between files */}
+        <div className="flex gap-2 mt-4 overflow-x-auto pb-2 no-scrollbar">
+          {fileLabels.map((label, i) => (
+            <button
+              key={label}
+              onClick={() => navigate(`/bundle-preview/${i}`)}
+              className={`px-3 py-1.5 rounded-full text-[10px] font-semibold whitespace-nowrap transition-all ${
+                i === idx ? "gradient-accent text-primary-foreground" : "bg-card text-muted-foreground shadow-soft"
+              }`}
+            >
+              {label.split(" ").slice(0, 2).join(" ")}
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={handleCopy}
+          className="w-full gradient-accent text-primary-foreground py-3.5 rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 shadow-soft mt-4"
+        >
+          <Copy className="w-4 h-4" /> Copy to Clipboard
         </button>
       </div>
     </div>
