@@ -1,18 +1,20 @@
-# Welcome to your Lovable project
+**Project info**
 
-## Project info
+FYP Forge is now a fully functional app, not a prototype:
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+A polished 3D robot matching the reference aesthetic with floating stat badges on onboarding.
 
-## How can I edit this code?
+App is locked to 430px max-width with a centered mobile container, just like a real mobile app.
 
-There are several ways of editing your application.
+Global state context (AppContext) persists interests, selected project, milestones, and bundle status to localStorage. Every screen reads from and writes to shared state.
 
-**Use Lovable**
+The Vibe Coding Bundle generates actual files (PRD, User Flow, Flowchart, DB Schema, MVP Scope, Master Prompt) with real, detailed content tailored to the selected project, then packages them into a downloadable ZIP using JSZip.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Tap to toggle completion, progress tracked across dashboard, roadmap, and profile.
 
-Changes made via Lovable will be committed automatically to this repo.
+The floating AI assistant understands context (selected project, user name), responds to natural language, and navigates to relevant screens.
+
+8 unique FYP ideas — Each with full research data (problem statement, literature review, impact analysis) that drives all generated content.
 
 **Use your preferred IDE**
 
@@ -60,14 +62,3 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
