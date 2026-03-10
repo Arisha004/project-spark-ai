@@ -136,7 +136,7 @@ export const allIdeas: FYPIdea[] = [
     impact: "Medium",
     career: "IoT Engineer",
     description: "An IoT system that monitors classroom environment (temperature, humidity, CO2, noise) and auto-adjusts for optimal learning.",
-    color: "bg-pastel-purple",
+    color: "bg-pastel-slate",
     category: ["se", "data", "ai"],
     overview: "A smart classroom monitoring system using IoT sensors to track environmental conditions and automatically optimize them for learning. Includes a dashboard for facility managers and real-time alerts for teachers.",
     features: ["Multi-sensor monitoring", "Auto HVAC/lighting control", "Occupancy detection", "Energy usage analytics", "Mobile alerts for facility staff", "Historical trend analysis"],
