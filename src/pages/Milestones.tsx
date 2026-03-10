@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Circle, Clock, Trophy, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Circle, Clock } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { useApp } from "@/context/AppContext";
 
@@ -19,8 +19,8 @@ export default function Milestones() {
 
   if (!selectedIdea) {
     return (
-      <div className="min-h-screen gradient-soft flex flex-col items-center justify-center px-6 pb-24">
-        <Sparkles className="w-12 h-12 text-muted-foreground mb-4" />
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 pb-24">
+        <p className="text-3xl mb-4">✅</p>
         <h2 className="text-lg font-bold mb-2">No Project Selected</h2>
         <p className="text-sm text-muted-foreground text-center mb-6">Select an FYP idea to track milestones.</p>
         <button onClick={() => navigate("/ideas")} className="gradient-accent text-primary-foreground px-6 py-3 rounded-2xl font-semibold text-sm">
@@ -34,24 +34,22 @@ export default function Milestones() {
   const completed = milestones.filter((m) => completedMilestones.includes(m.title)).length;
   const progress = Math.round((completed / milestones.length) * 100);
 
-  // Determine status for each milestone
   const getStatus = (title: string, index: number) => {
     if (completedMilestones.includes(title)) return "done" as const;
-    // First incomplete milestone is active
     const firstIncompleteIndex = milestones.findIndex((m) => !completedMilestones.includes(m.title));
     if (index === firstIncompleteIndex) return "active" as const;
     return "pending" as const;
   };
 
   return (
-    <div className="min-h-screen gradient-soft pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <div className="px-6 pt-8 pb-4 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-2xl bg-card shadow-soft flex items-center justify-center">
           <ArrowLeft className="w-4 h-4" />
         </button>
-        <h1 className="text-lg font-bold flex-1">Milestone Tracker</h1>
-        <div className="w-10 h-10 rounded-2xl bg-pastel-yellow flex items-center justify-center">
-          <Trophy className="w-5 h-5 text-primary" />
+        <h1 className="text-lg font-extrabold flex-1 tracking-tight">Milestone Tracker</h1>
+        <div className="w-10 h-10 rounded-2xl bg-pastel-yellow flex items-center justify-center text-lg">
+          🏆
         </div>
       </div>
 
@@ -63,11 +61,11 @@ export default function Milestones() {
               <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
                 <circle cx="32" cy="32" r="28" fill="none" stroke="hsl(var(--accent))" strokeWidth="6" />
                 <circle
-                  cx="32" cy="32" r="28" fill="none" stroke="hsl(var(--primary))" strokeWidth="6"
+                  cx="32" cy="32" r="28" fill="none" stroke="hsl(var(--foreground))" strokeWidth="6"
                   strokeDasharray={`${progress * 1.76} 176`} strokeLinecap="round"
                 />
               </svg>
-              <span className="absolute inset-0 flex items-center justify-center text-sm font-bold">{progress}%</span>
+              <span className="absolute inset-0 flex items-center justify-center text-sm font-extrabold">{progress}%</span>
             </div>
             <div>
               <h3 className="text-sm font-bold">{completed} of {milestones.length} completed</h3>
@@ -88,15 +86,15 @@ export default function Milestones() {
                 key={m.title}
                 onClick={() => toggleMilestone(m.title)}
                 className={`w-full bg-card rounded-3xl p-4 shadow-card flex items-center gap-4 animate-slide-up text-left transition-all active:scale-[0.98] ${
-                  status === "active" ? "ring-2 ring-primary/30" : ""
+                  status === "active" ? "ring-2 ring-foreground/20" : ""
                 }`}
                 style={{ animationDelay: `${i * 0.05}s` }}
               >
                 {status === "done" ? (
-                  <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
+                  <CheckCircle2 className="w-6 h-6 text-foreground shrink-0" />
                 ) : status === "active" ? (
-                  <div className="w-6 h-6 rounded-full border-2 border-primary animate-pulse_soft shrink-0 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  <div className="w-6 h-6 rounded-full border-2 border-foreground animate-pulse_soft shrink-0 flex items-center justify-center">
+                    <div className="w-2 h-2 rounded-full bg-foreground" />
                   </div>
                 ) : (
                   <Circle className="w-6 h-6 text-border shrink-0" />
@@ -110,7 +108,7 @@ export default function Milestones() {
                   </p>
                 </div>
                 {status === "active" && (
-                  <span className="text-[10px] bg-accent text-primary px-2 py-1 rounded-full font-semibold">Current</span>
+                  <span className="text-[10px] bg-pastel-yellow px-2 py-1 rounded-full font-semibold">Current</span>
                 )}
                 {status === "done" && (
                   <span className="text-[10px] bg-pastel-green px-2 py-1 rounded-full font-semibold">Done</span>
