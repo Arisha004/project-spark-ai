@@ -28,7 +28,7 @@ export const allIdeas: FYPIdea[] = [
     impact: "High",
     career: "AI/ML Engineer",
     description: "An intelligent plagiarism detection system using NLP and transformer models to analyze academic documents.",
-    color: "bg-pastel-purple",
+    color: "bg-pastel-blue",
     category: ["ai", "ml", "se"],
     overview: "Build an intelligent plagiarism detection system that uses Natural Language Processing and transformer models to analyze academic documents for potential plagiarism, providing detailed similarity reports with highlighted sections.",
     features: ["Document upload & parsing (PDF, DOCX, TXT)", "NLP-based semantic similarity analysis", "Detailed plagiarism reports with highlights", "Citation checker & bibliography validator", "Batch processing for multiple documents", "Dashboard with analytics & trends"],
