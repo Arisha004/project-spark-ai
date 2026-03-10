@@ -1,27 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Sparkles, FileCode, Target } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import robotMascot from "@/assets/robot-mascot.png";
 
 const slides = [
   {
-    icon: Sparkles,
     title: "Discover Smarter FYP Ideas",
     description: "AI-powered recommendations tailored to your interests, skills, and career goals.",
-    color: "bg-pastel-purple",
+    badge: "bg-pastel-blue",
   },
   {
-    icon: Target,
     title: "Plan Your Entire Project",
     description: "Get structured roadmaps, milestones, and research insights generated in seconds.",
-    color: "bg-pastel-blue",
+    badge: "bg-pastel-yellow",
   },
   {
-    icon: FileCode,
     title: "Vibe Coding Bundle",
     description: "Download PRD, user flows, schemas & coding prompts — ready for AI coding tools.",
-    color: "bg-pastel-pink",
+    badge: "bg-pastel-pink",
   },
 ];
 
@@ -30,7 +27,6 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const { onboardingComplete } = useApp();
 
-  // Skip onboarding if already done
   if (onboardingComplete) {
     return <meta httpEquiv="refresh" content="0;url=/dashboard" />;
   }
@@ -41,32 +37,29 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen gradient-hero flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-12 pb-8">
         {/* Robot mascot */}
-        <div className="relative mb-8 animate-float">
-          <img src={robotMascot} alt="Forge AI mascot" className="w-44 h-44 object-contain drop-shadow-2xl" />
-          {/* floating badges */}
-          <div className="absolute top-0 -left-2 bg-card px-3 py-1.5 rounded-full shadow-float text-[10px] font-bold animate-fade-in flex items-center gap-1.5 border border-border/50">
-            <span className="text-primary">40%</span>
+        <div className="relative mb-10 animate-float">
+          <img src={robotMascot} alt="Forge AI mascot" className="w-48 h-48 object-contain drop-shadow-xl" />
+          {/* floating stat badges */}
+          <div className="absolute top-0 -left-2 bg-card px-3 py-1.5 rounded-full shadow-float text-[10px] font-bold animate-fade-in flex items-center gap-1.5 border border-border/40">
+            <span className="text-foreground font-extrabold">40%</span>
             Planning
           </div>
-          <div className="absolute top-10 -right-4 bg-card px-3 py-1.5 rounded-full shadow-float text-[10px] font-bold animate-fade-in flex items-center gap-1.5 border border-border/50" style={{ animationDelay: "0.2s" }}>
-            <span className="text-primary">30%</span>
+          <div className="absolute top-10 -right-4 bg-card px-3 py-1.5 rounded-full shadow-float text-[10px] font-bold animate-fade-in flex items-center gap-1.5 border border-border/40" style={{ animationDelay: "0.2s" }}>
+            <span className="text-foreground font-extrabold">30%</span>
             Research
           </div>
-          <div className="absolute bottom-4 -left-6 bg-card px-3 py-1.5 rounded-full shadow-float text-[10px] font-bold animate-fade-in flex items-center gap-1.5 border border-border/50" style={{ animationDelay: "0.4s" }}>
-            <span className="text-primary">30%</span>
+          <div className="absolute bottom-4 -left-6 bg-card px-3 py-1.5 rounded-full shadow-float text-[10px] font-bold animate-fade-in flex items-center gap-1.5 border border-border/40" style={{ animationDelay: "0.4s" }}>
+            <span className="text-foreground font-extrabold">30%</span>
             Coding
           </div>
         </div>
 
         {/* Slide content */}
         <div key={step} className="text-center animate-fade-in max-w-sm">
-          <div className={`w-14 h-14 ${slides[step].color} rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-soft`}>
-            {(() => { const Icon = slides[step].icon; return <Icon className="w-7 h-7 text-primary" />; })()}
-          </div>
-          <h1 className="text-2xl font-bold mb-3 leading-tight">{slides[step].title}</h1>
+          <h1 className="text-2xl font-extrabold mb-3 leading-tight tracking-tight">{slides[step].title}</h1>
           <p className="text-muted-foreground text-sm leading-relaxed">{slides[step].description}</p>
         </div>
 
@@ -76,7 +69,7 @@ export default function Onboarding() {
             <div
               key={i}
               className={`h-2 rounded-full transition-all duration-300 ${
-                i === step ? "w-8 bg-primary" : "w-2 bg-border"
+                i === step ? "w-8 bg-foreground" : "w-2 bg-border"
               }`}
             />
           ))}

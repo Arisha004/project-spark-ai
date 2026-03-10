@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Download, Copy, Check } from "lucide-react";
+import { ArrowLeft, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { generatePRD, generateUserFlow, generateFlowchart, generateDatabaseSchema, generateMVPScope, generateMasterPrompt } from "@/lib/bundleGenerator";
@@ -34,20 +34,20 @@ export default function BundlePreview() {
   };
 
   return (
-    <div className="min-h-screen gradient-soft pb-8">
+    <div className="min-h-screen bg-background pb-8">
       <div className="px-6 pt-8 pb-4 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-2xl bg-card shadow-soft flex items-center justify-center">
           <ArrowLeft className="w-4 h-4" />
         </button>
         <div className="flex-1">
-          <h1 className="text-lg font-bold">{fileLabel}</h1>
+          <h1 className="text-lg font-extrabold tracking-tight">{fileLabel}</h1>
           <p className="text-xs text-muted-foreground">{fileName}</p>
         </div>
         <button
           onClick={handleCopy}
           className="w-10 h-10 rounded-2xl bg-card shadow-soft flex items-center justify-center"
         >
-          {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
+          {copied ? <Check className="w-4 h-4 text-foreground" /> : <Copy className="w-4 h-4" />}
         </button>
       </div>
 

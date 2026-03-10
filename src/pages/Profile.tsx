@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { User, Settings, FileText, ChevronRight, Bell, Shield, HelpCircle, Star, LogOut, Edit2 } from "lucide-react";
+import { ChevronRight, Edit2 } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { useApp } from "@/context/AppContext";
 import robotMascot from "@/assets/robot-mascot.png";
@@ -12,8 +12,8 @@ const interestLabels: Record<string, string> = {
 };
 
 const interestColors: Record<string, string> = {
-  ai: "bg-pastel-purple", web: "bg-pastel-blue", data: "bg-pastel-green", cyber: "bg-pastel-pink",
-  mobile: "bg-pastel-yellow", ml: "bg-pastel-mint", se: "bg-pastel-purple", db: "bg-pastel-blue",
+  ai: "bg-pastel-blue", web: "bg-pastel-yellow", data: "bg-pastel-green", cyber: "bg-pastel-pink",
+  mobile: "bg-pastel-yellow", ml: "bg-pastel-mint", se: "bg-pastel-blue", db: "bg-pastel-slate",
 };
 
 export default function Profile() {
@@ -40,32 +40,34 @@ export default function Profile() {
   };
 
   const menuItems = [
-    { icon: FileText, label: "My Documents", action: () => navigate("/docs") },
-    { icon: Star, label: "Saved Ideas", action: () => navigate("/ideas") },
-    { icon: Bell, label: "Notifications", action: () => toast.info("No new notifications") },
-    { icon: Shield, label: "Privacy", action: () => toast.info("Your data is stored locally on your device") },
-    { icon: HelpCircle, label: "Help & Support", action: () => toast.info("Contact: support@fypforge.ai") },
-    { icon: Settings, label: "Edit Interests", action: () => { setOnboardingComplete(false); navigate("/interests"); } },
+    { label: "My Documents", emoji: "📄", action: () => navigate("/docs") },
+    { label: "Saved Ideas", emoji: "⭐", action: () => navigate("/ideas") },
+    { label: "Notifications", emoji: "🔔", action: () => toast.info("No new notifications") },
+    { label: "Privacy", emoji: "🔒", action: () => toast.info("Your data is stored locally on your device") },
+    { label: "Help & Support", emoji: "❓", action: () => toast.info("Contact: support@fypforge.ai") },
+    { label: "Edit Interests", emoji: "⚙️", action: () => { setOnboardingComplete(false); navigate("/interests"); } },
   ];
 
   return (
-    <div className="min-h-screen gradient-soft pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <div className="px-6 pt-8 pb-4">
-        <h1 className="text-lg font-bold">Profile</h1>
+        <h1 className="text-lg font-extrabold tracking-tight">Profile</h1>
       </div>
 
       <div className="px-6 space-y-5">
         {/* Profile card */}
         <div className="bg-card rounded-3xl p-5 shadow-card animate-fade-in">
           <div className="flex items-center gap-4">
-            <img src={robotMascot} alt="Avatar" className="w-16 h-16 rounded-2xl bg-accent object-contain shadow-soft" />
+            <div className="w-16 h-16 rounded-2xl bg-accent overflow-hidden shadow-soft">
+              <img src={robotMascot} alt="Avatar" className="w-full h-full object-contain" />
+            </div>
             <div className="flex-1">
               {editing ? (
                 <div className="flex items-center gap-2">
                   <input
                     value={nameInput}
                     onChange={(e) => setNameInput(e.target.value)}
-                    className="text-base font-bold bg-accent rounded-xl px-3 py-1.5 outline-none border border-primary/30 flex-1"
+                    className="text-base font-bold bg-accent rounded-xl px-3 py-1.5 outline-none border border-foreground/20 flex-1"
                     autoFocus
                     onKeyDown={(e) => e.key === "Enter" && handleSaveName()}
                   />
@@ -73,7 +75,7 @@ export default function Profile() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <h2 className="text-base font-bold">{userName || "Student"}</h2>
+                  <h2 className="text-base font-extrabold">{userName || "Student"}</h2>
                   <button onClick={() => setEditing(true)} className="w-6 h-6 rounded-lg bg-accent flex items-center justify-center">
                     <Edit2 className="w-3 h-3 text-muted-foreground" />
                   </button>
@@ -99,7 +101,7 @@ export default function Profile() {
             { label: "Bundle", value: bundleGenerated ? "✓" : "—" },
           ].map((stat) => (
             <div key={stat.label} className="bg-card rounded-3xl p-4 shadow-card text-center">
-              <p className="text-xl font-bold text-primary">{stat.value}</p>
+              <p className="text-xl font-extrabold">{stat.value}</p>
               <p className="text-[10px] text-muted-foreground mt-1">{stat.label}</p>
             </div>
           ))}
@@ -124,7 +126,7 @@ export default function Profile() {
                 i < menuItems.length - 1 ? "border-b border-border" : ""
               }`}
             >
-              <item.icon className="w-5 h-5 text-muted-foreground" />
+              <span className="text-base">{item.emoji}</span>
               <span className="text-sm font-medium flex-1">{item.label}</span>
               <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </button>
@@ -135,7 +137,7 @@ export default function Profile() {
           onClick={handleReset}
           className="w-full flex items-center justify-center gap-2 text-sm text-destructive font-medium py-3"
         >
-          <LogOut className="w-4 h-4" /> Reset & Start Over
+          🚪 Reset & Start Over
         </button>
       </div>
 

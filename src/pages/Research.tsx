@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen, Target, Lightbulb, FileText, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 
 export default function Research() {
@@ -8,8 +8,8 @@ export default function Research() {
 
   if (!selectedIdea) {
     return (
-      <div className="min-h-screen gradient-soft flex flex-col items-center justify-center px-6">
-        <Sparkles className="w-12 h-12 text-muted-foreground mb-4" />
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
+        <p className="text-3xl mb-4">🔬</p>
         <h2 className="text-lg font-bold mb-2">No Project Selected</h2>
         <p className="text-sm text-muted-foreground text-center mb-6">Select an FYP idea first to generate research insights.</p>
         <button onClick={() => navigate("/ideas")} className="gradient-accent text-primary-foreground px-6 py-3 rounded-2xl font-semibold text-sm">
@@ -20,40 +20,20 @@ export default function Research() {
   }
 
   const sections = [
-    {
-      icon: Target,
-      title: "Problem Statement",
-      content: selectedIdea.problemStatement,
-      color: "bg-pastel-purple",
-    },
-    {
-      icon: BookOpen,
-      title: "Research Background",
-      content: selectedIdea.researchBackground,
-      color: "bg-pastel-blue",
-    },
-    {
-      icon: Lightbulb,
-      title: "Potential Impact",
-      content: selectedIdea.potentialImpact,
-      color: "bg-pastel-green",
-    },
-    {
-      icon: FileText,
-      title: "Literature Summary",
-      content: selectedIdea.literatureSummary,
-      color: "bg-pastel-yellow",
-    },
+    { title: "Problem Statement", content: selectedIdea.problemStatement, color: "bg-pastel-blue", emoji: "🎯" },
+    { title: "Research Background", content: selectedIdea.researchBackground, color: "bg-pastel-yellow", emoji: "📖" },
+    { title: "Potential Impact", content: selectedIdea.potentialImpact, color: "bg-pastel-green", emoji: "💡" },
+    { title: "Literature Summary", content: selectedIdea.literatureSummary, color: "bg-pastel-pink", emoji: "📋" },
   ];
 
   return (
-    <div className="min-h-screen gradient-soft pb-8">
+    <div className="min-h-screen bg-background pb-8">
       <div className="px-6 pt-8 pb-4 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-2xl bg-card shadow-soft flex items-center justify-center">
           <ArrowLeft className="w-4 h-4" />
         </button>
         <div className="flex-1">
-          <h1 className="text-lg font-bold">AI Research Insights</h1>
+          <h1 className="text-lg font-extrabold tracking-tight">AI Research Insights</h1>
           <p className="text-xs text-muted-foreground">{selectedIdea.title}</p>
         </div>
       </div>
@@ -63,11 +43,11 @@ export default function Research() {
           <div
             key={section.title}
             className="bg-card rounded-3xl p-5 shadow-card animate-slide-up"
-            style={{ animationDelay: `${i * 0.1}s` }}
+            style={{ animationDelay: `${i * 0.08}s` }}
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className={`w-10 h-10 ${section.color} rounded-2xl flex items-center justify-center`}>
-                <section.icon className="w-5 h-5 text-primary" />
+              <div className={`w-10 h-10 ${section.color} rounded-2xl flex items-center justify-center text-lg`}>
+                {section.emoji}
               </div>
               <h3 className="text-sm font-bold">{section.title}</h3>
             </div>
