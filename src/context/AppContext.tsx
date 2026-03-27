@@ -172,9 +172,13 @@ interface AppState {
   userName: string;
   university: string;
   year: string;
+  careerGoal: string;
+  projectPreference: string;
+  skillLevel: string;
   completedMilestones: string[];
   bundleGenerated: boolean;
   onboardingComplete: boolean;
+  generatedDocs: Record<string, string>;
 }
 
 interface AppContextType extends AppState {
@@ -183,9 +187,13 @@ interface AppContextType extends AppState {
   setUserName: (name: string) => void;
   setUniversity: (uni: string) => void;
   setYear: (year: string) => void;
+  setCareerGoal: (goal: string) => void;
+  setProjectPreference: (pref: string) => void;
+  setSkillLevel: (level: string) => void;
   toggleMilestone: (title: string) => void;
   setBundleGenerated: (v: boolean) => void;
   setOnboardingComplete: (v: boolean) => void;
+  setGeneratedDoc: (title: string, content: string) => void;
   getFilteredIdeas: () => FYPIdea[];
 }
 
@@ -195,19 +203,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(() => {
     const saved = localStorage.getItem("fyp-forge-state");
     if (saved) {
-      try { return JSON.parse(saved); } catch { /* ignore */ }
+      try { return { ...getDefaultState(), ...JSON.parse(saved) }; } catch { /* ignore */ }
     }
+    return getDefaultState();
+  });
+
+  function getDefaultState(): AppState {
     return {
       interests: [],
       selectedIdea: null,
       userName: "",
       university: "",
       year: "4",
+      careerGoal: "",
+      projectPreference: "",
+      skillLevel: "",
       completedMilestones: [],
       bundleGenerated: false,
       onboardingComplete: false,
+      generatedDocs: {},
     };
-  });
+  }
 
   const persist = (newState: AppState) => {
     setState(newState);
@@ -219,6 +235,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const setUserName = (name: string) => persist({ ...state, userName: name });
   const setUniversity = (uni: string) => persist({ ...state, university: uni });
   const setYear = (year: string) => persist({ ...state, year });
+  const setCareerGoal = (goal: string) => persist({ ...state, careerGoal: goal });
+  const setProjectPreference = (pref: string) => persist({ ...state, projectPreference: pref });
+  const setSkillLevel = (level: string) => persist({ ...state, skillLevel: level });
   const toggleMilestone = (title: string) => {
     const cm = state.completedMilestones.includes(title)
       ? state.completedMilestones.filter((m) => m !== title)
@@ -227,6 +246,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
   const setBundleGenerated = (v: boolean) => persist({ ...state, bundleGenerated: v });
   const setOnboardingComplete = (v: boolean) => persist({ ...state, onboardingComplete: v });
+  const setGeneratedDoc = (title: string, content: string) => {
+    persist({ ...state, generatedDocs: { ...state.generatedDocs, [title]: content } });
+  };
 
   const getFilteredIdeas = () => {
     if (state.interests.length === 0) return allIdeas;
@@ -237,7 +259,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     <AppContext.Provider value={{
       ...state,
       setInterests, setSelectedIdea, setUserName, setUniversity, setYear,
-      toggleMilestone, setBundleGenerated, setOnboardingComplete, getFilteredIdeas,
+      setCareerGoal, setProjectPreference, setSkillLevel,
+      toggleMilestone, setBundleGenerated, setOnboardingComplete, setGeneratedDoc, getFilteredIdeas,
     }}>
       {children}
     </AppContext.Provider>
