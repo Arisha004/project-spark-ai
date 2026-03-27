@@ -18,7 +18,7 @@ const interestColors: Record<string, string> = {
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { userName, setUserName, interests, completedMilestones, bundleGenerated, selectedIdea, setOnboardingComplete, setSelectedIdea, setBundleGenerated } = useApp();
+  const { userName, setUserName, interests, completedMilestones, bundleGenerated, selectedIdea, setOnboardingComplete, setSelectedIdea, setBundleGenerated, year, university } = useApp();
   const [editing, setEditing] = useState(false);
   const [nameInput, setNameInput] = useState(userName);
 
@@ -81,7 +81,7 @@ export default function Profile() {
                   </button>
                 </div>
               )}
-              <p className="text-xs text-muted-foreground mt-0.5">Computer Science · Year {useApp().year || "4"}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{university || "Computer Science"} · Year {year || "4"}</p>
               <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
                 {interests.map((id) => (
                   <span key={id} className={`text-[10px] ${interestColors[id] || "bg-accent"} px-2 py-0.5 rounded-full font-medium`}>
