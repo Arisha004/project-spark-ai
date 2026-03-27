@@ -3,11 +3,11 @@ import { ArrowLeft, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { generatePRD, generateUserFlow, generateFlowchart, generateDatabaseSchema, generateMVPScope, generateMasterPrompt } from "@/lib/bundleGenerator";
+import { generateTestCases } from "@/lib/testCaseGenerator";
 import { toast } from "sonner";
 
-const fileNames = ["PRD.md", "user-flow.md", "system-flowchart.md", "database-schema.sql", "mvp-scope.md", "master-prompt.md"];
-const fileLabels = ["Product Requirement Document", "User Flow", "System Flowchart", "Database Schema", "MVP Scope", "Master Vibe Coding Prompt"];
-const generators = [generatePRD, generateUserFlow, generateFlowchart, generateDatabaseSchema, generateMVPScope, generateMasterPrompt];
+const fileNames = ["PRD.md", "user-flow.md", "system-flowchart.md", "database-schema.sql", "mvp-scope.md", "master-prompt.md", "test-cases.md"];
+const fileLabels = ["Product Requirement Document", "User Flow", "System Flowchart", "Database Schema", "MVP Scope", "Master Vibe Coding Prompt", "Test Cases"];
 
 export default function BundlePreview() {
   const { fileIndex } = useParams();
@@ -22,6 +22,7 @@ export default function BundlePreview() {
     return null;
   }
 
+  const generators = [generatePRD, generateUserFlow, generateFlowchart, generateDatabaseSchema, generateMVPScope, generateMasterPrompt, generateTestCases];
   const content = generators[idx](selectedIdea);
   const fileName = fileNames[idx];
   const fileLabel = fileLabels[idx];

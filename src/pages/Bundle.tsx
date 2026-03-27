@@ -13,6 +13,7 @@ const bundleFilesMeta = [
   { name: "database-schema.sql", label: "Database Schema", color: "bg-pastel-pink", emoji: "🗃️" },
   { name: "mvp-scope.md", label: "MVP Scope Document", color: "bg-pastel-mint", emoji: "📦" },
   { name: "master-prompt.md", label: "Master Vibe Coding Prompt", color: "bg-pastel-slate", emoji: "🤖" },
+  { name: "test-cases.md", label: "Test Cases", color: "bg-pastel-blue", emoji: "🧪" },
 ];
 
 export default function Bundle() {
@@ -73,7 +74,7 @@ export default function Bundle() {
           <p className="text-[10px] font-bold tracking-wider text-muted-foreground mb-1 uppercase">Vibe Coding Bundle</p>
           <h2 className="text-base font-extrabold mb-1 tracking-tight">Ready-to-Code Starter Pack</h2>
           <p className="text-xs text-muted-foreground leading-relaxed mb-4">
-            AI generates PRD, user flows, schemas & prompts for "{selectedIdea.title}". Upload to any AI coding tool.
+            AI generates PRD, user flows, schemas, test cases & prompts for "{selectedIdea.title}". Upload to any AI coding tool.
           </p>
           {!bundleGenerated ? (
             <button
