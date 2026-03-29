@@ -77,10 +77,10 @@ export default function Onboarding() {
       </div>
 
       {/* Bottom actions */}
-      <div className="px-6 pb-8 flex items-center gap-4">
+      <div className="px-6 pb-8 flex items-center gap-3">
         <button
           onClick={() => navigate("/interests")}
-          className="text-sm text-muted-foreground font-medium"
+          className="flex-1 text-sm text-muted-foreground font-semibold py-3.5 rounded-2xl bg-card shadow-soft transition-all active:scale-[0.98]"
         >
           Skip
         </button>
