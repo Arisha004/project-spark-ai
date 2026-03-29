@@ -264,7 +264,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ...state,
       setInterests, setSelectedIdea, setUserName, setUniversity, setYear,
       setCareerGoal, setProjectPreference, setSkillLevel,
-      toggleMilestone, setBundleGenerated, setOnboardingComplete, setGeneratedDoc, getFilteredIdeas,
+      toggleMilestone, setBundleGenerated, setOnboardingComplete, completeOnboarding, setGeneratedDoc, getFilteredIdeas,
     }}>
       {children}
     </AppContext.Provider>

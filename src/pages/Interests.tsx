@@ -40,9 +40,10 @@ const skillLevels = [
 
 export default function Interests() {
   const {
-    interests, setInterests, setOnboardingComplete,
+    interests, setInterests,
     userName, setUserName, university, setUniversity,
     year, setYear, setCareerGoal, setProjectPreference, setSkillLevel,
+    completeOnboarding,
   } = useApp();
 
   const [step, setStep] = useState(0);
@@ -74,14 +75,15 @@ export default function Interests() {
     if (step < 3) {
       setStep(step + 1);
     } else {
-      setUserName(name.trim());
-      setUniversity(uni.trim());
-      setYear(yr);
-      setInterests(selected);
-      setCareerGoal(career);
-      setProjectPreference(projPref);
-      setSkillLevel(skill);
-      setOnboardingComplete(true);
+      completeOnboarding({
+        userName: name.trim(),
+        university: uni.trim(),
+        year: yr,
+        interests: selected,
+        careerGoal: career,
+        projectPreference: projPref,
+        skillLevel: skill,
+      });
       navigate("/dashboard");
     }
   };
