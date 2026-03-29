@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingAI } from "@/components/FloatingAI";
 import { useApp } from "@/context/AppContext";
@@ -15,8 +15,12 @@ const quickActions = [
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { userName, selectedIdea, completedMilestones, bundleGenerated, getFilteredIdeas } = useApp();
+  const { userName, selectedIdea, completedMilestones, bundleGenerated, getFilteredIdeas, onboardingComplete } = useApp();
   
+  // If no name was saved (old broken state), force re-onboarding
+  if (!userName || !onboardingComplete) {
+    return <Navigate to="/" replace />;
+  }
   const filteredIdeas = getFilteredIdeas();
   const totalMilestones = 7;
   const progress = Math.round((completedMilestones.length / totalMilestones) * 100);
