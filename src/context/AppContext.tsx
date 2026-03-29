@@ -195,6 +195,7 @@ interface AppContextType extends AppState {
   setOnboardingComplete: (v: boolean) => void;
   setGeneratedDoc: (title: string, content: string) => void;
   getFilteredIdeas: () => FYPIdea[];
+  completeOnboarding: (data: { userName: string; university: string; year: string; interests: string[]; careerGoal: string; projectPreference: string; skillLevel: string }) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -246,6 +247,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
   const setBundleGenerated = (v: boolean) => persist({ ...state, bundleGenerated: v });
   const setOnboardingComplete = (v: boolean) => persist({ ...state, onboardingComplete: v });
+  const completeOnboarding = (data: { userName: string; university: string; year: string; interests: string[]; careerGoal: string; projectPreference: string; skillLevel: string }) => {
+    persist({ ...state, ...data, onboardingComplete: true });
+  };
   const setGeneratedDoc = (title: string, content: string) => {
     persist({ ...state, generatedDocs: { ...state.generatedDocs, [title]: content } });
   };
@@ -260,7 +264,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ...state,
       setInterests, setSelectedIdea, setUserName, setUniversity, setYear,
       setCareerGoal, setProjectPreference, setSkillLevel,
-      toggleMilestone, setBundleGenerated, setOnboardingComplete, setGeneratedDoc, getFilteredIdeas,
+      toggleMilestone, setBundleGenerated, setOnboardingComplete, completeOnboarding, setGeneratedDoc, getFilteredIdeas,
     }}>
       {children}
     </AppContext.Provider>

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { Bell } from "lucide-react";
 import { BottomNav } from "@/components/BottomNav";
 import { FloatingAI } from "@/components/FloatingAI";
 import { useApp } from "@/context/AppContext";
@@ -30,28 +29,34 @@ export default function Dashboard() {
     return { day: days[d.getDay()].charAt(0), date: d.getDate(), isToday: d.toDateString() === today.toDateString() };
   });
 
+  const greeting = () => {
+    const h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 17) return "Good afternoon";
+    return "Good evening";
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
-      <div className="px-6 pt-8 pb-4 flex items-center justify-between">
+      <div className="px-6 pt-8 pb-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-accent overflow-hidden shadow-soft">
+          <div className="w-11 h-11 rounded-full bg-accent overflow-hidden shadow-soft border-2 border-border/60">
             <img src={robotMascot} alt="Forge" className="w-full h-full object-contain" />
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Welcome back 👋</p>
+            <p className="text-[11px] text-muted-foreground font-medium">{greeting()}</p>
             <h1 className="text-lg font-extrabold tracking-tight">{userName || "Student"}</h1>
           </div>
         </div>
-        <button onClick={() => navigate("/profile")} className="w-10 h-10 rounded-2xl bg-card shadow-soft flex items-center justify-center relative">
-          <Bell className="w-4 h-4 text-muted-foreground" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full" />
+        <button onClick={() => navigate("/profile")} className="w-10 h-10 rounded-2xl bg-card shadow-soft flex items-center justify-center border border-border/40">
+          <span className="text-sm">👤</span>
         </button>
       </div>
 
-      <div className="px-6 space-y-5">
-        {/* Hero card — light pastel instead of dark */}
-        <div className="bg-pastel-blue rounded-3xl p-5 shadow-card animate-fade-in">
+      <div className="px-6 space-y-4 mt-2">
+        {/* Hero card */}
+        <div className="bg-card rounded-3xl p-5 shadow-card border border-border/30 animate-fade-in">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               {selectedIdea ? (
@@ -63,7 +68,7 @@ export default function Dashboard() {
                     onClick={() => navigate("/roadmap")}
                     className="gradient-accent text-primary-foreground text-xs font-semibold px-4 py-2 rounded-2xl"
                   >
-                    View Roadmap →
+                    View Roadmap
                   </button>
                 </>
               ) : (
@@ -77,41 +82,33 @@ export default function Dashboard() {
                     onClick={() => navigate("/ideas")}
                     className="gradient-accent text-primary-foreground text-xs font-semibold px-4 py-2 rounded-2xl"
                   >
-                    Explore Ideas →
+                    Explore Ideas
                   </button>
                 </>
               )}
             </div>
-            <img src={robotMascot} alt="" className="w-14 h-14 object-contain opacity-80" />
+            <img src={robotMascot} alt="" className="w-14 h-14 object-contain opacity-70" />
           </div>
         </div>
 
-        {/* Today's Activity Card */}
-        <div className="bg-card rounded-3xl p-5 shadow-card">
+        {/* Week tracker */}
+        <div className="bg-card rounded-3xl p-5 shadow-card border border-border/30">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-bold">Today's Activity</h3>
-            <div className="w-8 h-8 rounded-xl bg-pastel-yellow flex items-center justify-center text-sm">
-              🎯
-            </div>
+            <h3 className="text-sm font-bold">This Week</h3>
+            <span className="text-xs text-muted-foreground font-medium">{progress}% done</span>
           </div>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-2xl font-extrabold">{progress}%</span>
-            <div className="flex-1">
-              <div className="w-full bg-accent rounded-full h-2">
-                <div className="bg-foreground h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
-              </div>
-            </div>
+          <div className="w-full bg-accent rounded-full h-1.5 mb-4">
+            <div className="bg-foreground h-1.5 rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
-          {/* Week days */}
-          <div className="flex gap-2 mt-3">
+          <div className="flex gap-2">
             {weekDays.map((d) => (
               <div
                 key={d.date}
-                className={`flex-1 text-center py-2 rounded-2xl transition-all ${
-                  d.isToday ? "bg-foreground text-background" : "bg-accent"
+                className={`flex-1 text-center py-2.5 rounded-2xl transition-all ${
+                  d.isToday ? "bg-foreground text-background shadow-soft" : "bg-accent"
                 }`}
               >
-                <p className="text-[10px] font-medium opacity-60">{d.day}</p>
+                <p className="text-[9px] font-medium opacity-60">{d.day}</p>
                 <p className="text-xs font-bold">{d.date}</p>
               </div>
             ))}
@@ -121,14 +118,14 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div>
           <h3 className="text-sm font-bold mb-3">Quick Actions</h3>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2.5">
             {quickActions.map((action) => (
               <button
                 key={action.label}
                 onClick={() => navigate(action.path)}
-                className="flex flex-col items-center gap-2 bg-card rounded-3xl p-4 shadow-card hover:shadow-float transition-all active:scale-95"
+                className="flex flex-col items-center gap-2 bg-card rounded-3xl p-4 shadow-card border border-border/20 hover:shadow-float transition-all active:scale-95"
               >
-                <div className={`w-11 h-11 ${action.color} rounded-2xl flex items-center justify-center text-lg`}>
+                <div className={`w-10 h-10 ${action.color} rounded-2xl flex items-center justify-center text-base`}>
                   {action.emoji}
                 </div>
                 <span className="text-[10px] font-semibold text-muted-foreground">{action.label}</span>
@@ -137,14 +134,14 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Current Project Status */}
+        {/* Project Status */}
         {selectedIdea && (
           <div>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-bold">Project Status</h3>
               <button onClick={() => navigate("/milestones")} className="text-xs text-muted-foreground font-medium">View all</button>
             </div>
-            <div className="bg-card rounded-3xl p-5 shadow-card">
+            <div className="bg-card rounded-3xl p-5 shadow-card border border-border/30">
               <div className="flex items-center gap-3 mb-3">
                 <div className={`w-10 h-10 ${selectedIdea.color} rounded-2xl flex items-center justify-center text-sm`}>
                   💡
@@ -155,8 +152,8 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex-1 bg-accent rounded-full h-2">
-                  <div className="bg-foreground h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
+                <div className="flex-1 bg-accent rounded-full h-1.5">
+                  <div className="bg-foreground h-1.5 rounded-full transition-all" style={{ width: `${progress}%` }} />
                 </div>
                 <span className="text-xs font-bold">{progress}%</span>
               </div>
@@ -181,12 +178,12 @@ export default function Dashboard() {
               <h3 className="text-sm font-bold">Recommended For You</h3>
               <button onClick={() => navigate("/ideas")} className="text-xs text-muted-foreground font-medium">See all</button>
             </div>
-            <div className="space-y-3">
-              {filteredIdeas.slice(0, 2).map((idea) => (
+            <div className="space-y-2.5">
+              {filteredIdeas.slice(0, 3).map((idea) => (
                 <button
                   key={idea.id}
                   onClick={() => navigate(`/idea/${idea.id}`)}
-                  className="w-full bg-card rounded-3xl p-4 shadow-card text-left hover:shadow-float transition-shadow"
+                  className="w-full bg-card rounded-3xl p-4 shadow-card border border-border/20 text-left hover:shadow-float transition-shadow"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 ${idea.color} rounded-2xl flex items-center justify-center shrink-0 text-sm`}>
