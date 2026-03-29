@@ -17,8 +17,8 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { userName, selectedIdea, completedMilestones, bundleGenerated, getFilteredIdeas, onboardingComplete } = useApp();
   
-  // If no name was saved (old broken state), force re-onboarding
-  if (!userName || !onboardingComplete) {
+  // If onboarding not done, go to start
+  if (!onboardingComplete) {
     return <Navigate to="/" replace />;
   }
   const filteredIdeas = getFilteredIdeas();

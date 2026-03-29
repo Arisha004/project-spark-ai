@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import robotMascot from "@/assets/robot-mascot.png";
@@ -28,7 +28,7 @@ export default function Onboarding() {
   const { onboardingComplete } = useApp();
 
   if (onboardingComplete) {
-    return <meta httpEquiv="refresh" content="0;url=/dashboard" />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   const handleNext = () => {
