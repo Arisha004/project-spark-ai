@@ -21,6 +21,7 @@ export default function Dashboard() {
   if (!userName || !onboardingComplete) {
     return <Navigate to="/" replace />;
   }
+  const filteredIdeas = getFilteredIdeas();
   const totalMilestones = 7;
   const progress = Math.round((completedMilestones.length / totalMilestones) * 100);
   
